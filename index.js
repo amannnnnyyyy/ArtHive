@@ -33,7 +33,9 @@ db.once('open',() => console.log('connected to mongoose!'))
 const main = require('./routes/main')
 app.use('/',main)
 
-
+//fetch from authors
+const authors = require('./routes/authors')
+app.use('/authors',authors)
 
 
 // listening port default is 3000 but once deployed the server tells us the port
