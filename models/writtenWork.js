@@ -1,19 +1,20 @@
 const mongoose = require('mongoose')
 
+const coverImageBasePath='uploads/writtenCover'
 const writtenWorkSchema = new mongoose.Schema({
     title: {
        type:String,
        required:true,
        default:''
      },
-     description: {
-        type:String,
-        required:false,
-        default:''
-      },
       publishDate:{
         type:Date,
         required:true
+      },
+      description: {
+        type:String,
+        required:false,
+        default:''
       },
       pageCount: {
         type:Number,
@@ -43,6 +44,11 @@ const writtenWorkSchema = new mongoose.Schema({
     //     }
     // ]   
 })
-
+writtenWorkSchema.virtual('coverImagePath').get(function() {
+  if (this.coverImageName != null) {
+    return path.join('/', coverImageBasePath, this.coverImageName)
+  }
+})
 //Author == name of database
 module.exports = mongoose.model('WrittenWork',writtenWorkSchema)
+module.exports.coverImagePath = coverImageBasePath
