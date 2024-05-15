@@ -7,6 +7,8 @@ const expressLayouts = require("express-ejs-layouts")
 const bodyParser = require("body-parser")
 //fetch from authors
 const authors = require('./routes/authors')
+//fetch from writtenWork
+const writtenWorks = require('./routes/writtenWorks')
 // fetch from main.js
 const main = require('./routes/main')
 
@@ -30,6 +32,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'))
 app.use('/',main)
 app.use('/authors',authors)
+app.use('/writtenWorks',writtenWorks)
 
 
 
