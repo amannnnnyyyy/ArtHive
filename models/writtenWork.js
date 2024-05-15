@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const path = require('path')
 
 const coverImageBasePath='uploads/writtenCover'
 const writtenWorkSchema = new mongoose.Schema({
@@ -35,18 +36,10 @@ const writtenWorkSchema = new mongoose.Schema({
         required:true,
         ref: 'Author'
      }
-    // bio: String,
-    // image: String,
-    // books: [
-    //     {
-    //         type: mongoose.Schema.Types.ObjectId,
-    //         ref: 'Book'
-    //     }
-    // ]   
 })
 writtenWorkSchema.virtual('coverImagePath').get(function() {
-  if (this.coverImageName != null) {
-    return path.join('/', coverImageBasePath, this.coverImageName)
+  if (this.coverImage != null) {
+    return path.join('/', coverImageBasePath, this.coverImage)
   }
 })
 //Author == name of database
