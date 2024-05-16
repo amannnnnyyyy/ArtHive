@@ -1,0 +1,6 @@
+<h2>Edit WrittenWork</h2>
+<form action="/writtenWorks/<%= writtenWork.id  %>?_method=PUT" method="POST" enctype="multipart/form-data">
+    <%-include('./_form_fields.ejs') %>
+    <a href="/writtenWorks">Cancel</a>
+    <button type="submit">Update</button>
+</form>

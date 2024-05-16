@@ -1,0 +1,13 @@
+<h2><%= written.title %></h2>
+<img height="150" width="100" src="<%= written.coverImagePath %>">
+<div>Author : <%= authorName %></div>
+<div>Published At: <%= written.publishDate.toDateString() %></div>
+
+<div>Page Count: <%= written.pageCount%></div>
+
+<div>Description : <%= written.description %></div>
+<a href="/writtenWorks/<%= written.id %>/edit">Edit</a>
+
+<a href="/authors/<%= written.author.id %>">View Author</a>
+
+<%- include('../partials/deleteForm.ejs',{url:`/writtenWorks/${written.id}`}) %>

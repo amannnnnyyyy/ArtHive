@@ -48,6 +48,37 @@ router.get("/new",async(req,res)=>{
  
 })
 
+router.get("/:id",async (req,res)=>{
+  try{
+    let authorName
+      const written = await Og_writtenWork.findById(req.params.id).populate('author').exec();
+      if(written.author.name!=null){
+        authorName = written.author.name
+      }else{
+        authorName = 'Unknown'
+      }
+      res.render('writtenWorks/show',{
+        written:written,
+        authorName:authorName
+      })
+  }catch{
+    res.redirect('/')
+  }
+})
+
+
+
+// Edit Book
+router.get("/:id/edit",async(req,res)=>{
+  try{
+    const writtenWork = await Og_writtenWork.findById(req.params.id)
+  
+  renderEditPage(res,writtenWork)
+  }catch{
+    res.redirect('/')
+  }
+
+})
 
 //create a new writtenWork
 router.post("/", upload.single('cover') ,async(req, res)=>{
@@ -62,7 +93,7 @@ router.post("/", upload.single('cover') ,async(req, res)=>{
   })
   try{
     const newWrittenWork = await writtenWork.save()
-    res.redirect('writtenWorks')
+    res.redirect(`writtenWorks/${writtenWork.id}`)
   }catch(err){
     console.log(err)
     if (writtenWork.coverImage!=null) {
@@ -79,7 +110,71 @@ function removeCover(fileName){
   })
 }
 
+
+
+//Update written work
+router.put("/:id", upload.single('cover') ,async(req, res)=>{
+  let written
+  try{
+    written = await Og_writtenWork.findById(req.params.id)
+    written.title = req.body.title
+    written.author = req.body.author
+    written.description = req.body.description
+    written.publishDate = new Date(req.body.publishDate)
+    written.pageCount = req.body.pageCount
+    if(req.file!=null){
+      written.coverImage = req.file.filename
+    }
+    // if(req.body.coverImage!=null && req.body.coverImage!== ''){
+    //saveCoverImage(writtenWork,req.body.coverImage) 
+ // }
+    await written.save()
+    res.redirect(`/writtenWorks/${written.id}`)
+  }catch(err){
+    console.log(err)
+    if (written.coverImage!=null) {
+      removeCover(written.coverImage)  
+    }
+
+    if(written!=null){
+      renderEditPage(res,written,true)
+    }else{
+        res.redirect('/')
+    }
+    
+  }
+})
+
+//delete written work
+router.delete("/:id",async(req,res)=>{
+  let written
+  try{
+    written = await Og_writtenWork.findById(req.params.id)
+    removeCover(written.coverImage)
+    await written.deleteOne()
+    res.redirect('/writtenWorks')
+  }catch(err){
+    if(written != null){
+      res.render('writtenWorks/show',{
+        written:written,
+        errorMessage:"Could not delete Written Work"
+      })
+    }else{
+    res.redirect(`/writtenWorks/${written.id}`)
+    }
+  }
+})
+
 async function renderNewPage(res,writtenWork,hasError=false){
+  renderFormPage(res,writtenWork,'new',hasError);
+}
+
+async function renderEditPage(res,writtenWork,hasError=false){
+ renderFormPage(res,writtenWork,'edit',hasError);
+}
+
+
+async function renderFormPage(res,writtenWork,form,hasError=false){
   try{
     let authors = []
     authors = await Author.find({})
@@ -88,15 +183,18 @@ async function renderNewPage(res,writtenWork,hasError=false){
       authors
    }
     // const writtenWorks = new writtenWork()
-    if(hasError) params.errorMessage = "Error creating written Work!"
-    res.render('writtenWorks/new', params)
+    if(hasError)
+    { if(form == 'edit'){
+      params.errorMessage = "Error Editing written Work!"}
+    }
+    else if(form == 'new'){
+      params.errorMessage = "Error Creating written Work!"
+    }
+    res.render(`writtenWorks/${form}`, params)
   }catch(err){
     console.log(err)
     res.redirect('/writtenWorks')
   }
 }
-
-
-  
   module.exports = router
   

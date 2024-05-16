@@ -18,7 +18,8 @@
 <div>
  <%console.log("hello") 
  writtenWorks.forEach(written=>{ %>
-    <img height="150" width="100" src="<%= written.coverImagePath %>" alt="">
-    <% console.log(written.coverImagePath) %>
+    <a href="/writtenWorks/<%= written.id %>">
+    <img height="150" width="100" src="<%= written.coverImagePath %>" alt="Written work image">
+</a>
 <% }) %> 
 </div>
