@@ -1,6 +1,8 @@
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
   }
+
+
 const express = require("express")
 const app = express()
 const expressLayouts = require("express-ejs-layouts")
@@ -11,6 +13,7 @@ const authors = require('./routes/authors')
 const writtenWorks = require('./routes/writtenWorks')
 // fetch from main.js
 const main = require('./routes/main')
+const methodOverride = require("method-override")
 
 
 
@@ -26,6 +29,7 @@ app.set('views',__dirname+'/views')
 app.set('layout','layouts/layout')
 app.use(expressLayouts)
 
+app.use(methodOverride('_method'))
 //public files locations
 //app.use(bodyParser.urlencoded({limit:'10mb',extended:false}))
 app.use(bodyParser.urlencoded({ extended: true }));

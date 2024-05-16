@@ -4,10 +4,10 @@ const path = require('path')
 const coverImageBasePath='uploads/writtenCover'
 const writtenWorkSchema = new mongoose.Schema({
     title: {
-       type:String,
-       required:true,
-       default:''
-     },
+      type:String,
+      required:true,
+      default:''
+    },
       publishDate:{
         type:Date,
         required:true
@@ -26,16 +26,16 @@ const writtenWorkSchema = new mongoose.Schema({
         required:false,
         default:Date.now()
       },
-     coverImage:{
+    coverImage:{
         type:String,
         required:true,
         default:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmhJla55Wmu_eiMde4emN6Tik5brGG_uM907_XmgU6lg&s'
-     },
-     author: {
+    },
+    author: {
         type: mongoose.Schema.Types.ObjectId,
         required:true,
         ref: 'Author'
-     }
+    }
 })
 writtenWorkSchema.virtual('coverImagePath').get(function() {
   if (this.coverImage != null) {

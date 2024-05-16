@@ -1,0 +1,9 @@
+<h2><%= author.name %></h2>
+<a href="/authors/<%= author.id %>/edit">Edit</a>
+<%- include('../partials/deleteForm.ejs',{url:`/authors/${author.id}`}) %>
+<% if (writtenWorksByAuthor.length > 0){%>
+<h2>Written Works By AUthor</h2>
+    <% writtenWorksByAuthor.forEach(written=>{%>
+        <img height="150" width="100" src="<%= written.coverImagePath %>" alt="">
+    <%}) %>
+    <% } %>
