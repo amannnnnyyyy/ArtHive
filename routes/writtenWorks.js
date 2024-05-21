@@ -30,10 +30,11 @@ router.get("/",async(req,res)=>{
   }
   try{
     const writtenWorks = await query.exec()
-    res.render("writtenWorks/index",{
-      writtenWorks:writtenWorks,
-      searchOptions:req.query
-    })
+    // res.render("writtenWorks/index",{
+    //   writtenWorks:writtenWorks,
+    //   searchOptions:req.query
+    // })
+    res.json(writtenWorks)
   }catch{
     res.redirect('/')
   }
@@ -83,12 +84,16 @@ router.get("/:id/edit",async(req,res)=>{
 //create a new writtenWork
 router.post("/", upload.single('cover') ,async(req, res)=>{
   const fileName = req.file!=null ? req.file.filename : null
+  console.log("fileName: ",fileName)
+  console.log("file from body: ",req.body.coverImage)
+  
   const writtenWork = new Og_writtenWork({
     title: req.body.title,
     author: req.body.author,
     description: req.body.description,
     publishDate: new Date(req.body.publishDate),
     pageCount: req.body.pageCount,
+    // coverImage: req.body.coverImage
     coverImage: fileName
   })
   try{
@@ -145,6 +150,7 @@ router.put("/:id", upload.single('cover') ,async(req, res)=>{
   }
 })
 
+
 //delete written work
 router.delete("/:id",async(req,res)=>{
   let written
@@ -164,6 +170,23 @@ router.delete("/:id",async(req,res)=>{
     }
   }
 })
+
+router.get('/:id/cover-image', async (req, res) => {
+  try {
+    const writtenWork = await Og_writtenWork.findById(req.params.id);
+    if (!writtenWork) {
+      return res.status(404).json({ message: 'Written work not found' });
+    }
+
+    const imageUrl = "uploads/writtenCover/"+writtenWork.coverImage; // Use virtual property for path
+
+    res.json({ url: imageUrl });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error fetching cover image' });
+  }
+});
+
 
 async function renderNewPage(res,writtenWork,hasError=false){
   renderFormPage(res,writtenWork,'new',hasError);

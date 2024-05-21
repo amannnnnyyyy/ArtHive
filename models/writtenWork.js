@@ -28,20 +28,22 @@ const writtenWorkSchema = new mongoose.Schema({
       },
     coverImage:{
         type:String,
-        required:true,
-        default:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmhJla55Wmu_eiMde4emN6Tik5brGG_uM907_XmgU6lg&s'
-    },
+        required:true 
+         },
     author: {
         type: mongoose.Schema.Types.ObjectId,
         required:true,
         ref: 'Author'
-    }
+    },
 })
+  
 writtenWorkSchema.virtual('coverImagePath').get(function() {
   if (this.coverImage != null) {
     return path.join('/', coverImageBasePath, this.coverImage)
   }
 })
+writtenWorkSchema.set('toJSON', { virtuals: true });
+writtenWorkSchema.set('toObject', { virtuals: true });
 //Author == name of database
 module.exports = mongoose.model('WrittenWork',writtenWorkSchema)
 module.exports.coverImagePath = coverImageBasePath
