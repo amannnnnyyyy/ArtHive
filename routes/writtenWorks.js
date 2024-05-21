@@ -5,7 +5,7 @@ const Author = require("../models/author")
 const multer = require("multer")
 const path = require('path')
 const fs = require('fs')
-const uploadPath = path.join('public',Og_writtenWork.coverImagePath)
+const uploadPath = path.join('public',Og_writtenWork.coverImageBasePath)
 
 const imageMimeTypes = ['image/png','image/jpeg','image/jpg','image/gif']
 const upload = multer({

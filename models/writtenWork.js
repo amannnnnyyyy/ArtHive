@@ -42,8 +42,7 @@ writtenWorkSchema.virtual('coverImagePath').get(function() {
     return path.join('/', coverImageBasePath, this.coverImage)
   }
 })
-writtenWorkSchema.set('toJSON', { virtuals: true });
-writtenWorkSchema.set('toObject', { virtuals: true });
+
 //Author == name of database
 module.exports = mongoose.model('WrittenWork',writtenWorkSchema)
-module.exports.coverImagePath = coverImageBasePath
+module.exports.coverImageBasePath = coverImageBasePath

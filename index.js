@@ -39,8 +39,8 @@ app.use(methodOverride('_method'))
 //app.use(bodyParser.urlencoded({limit:'10mb',extended:false}))
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json())
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-//app.use(express.static('public'))
+//app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use(express.static('public'))
 app.use('/',main)
 app.use('/authors',authors)
 app.use('/writtenWorks',writtenWorks)
