@@ -8,8 +8,8 @@ import {BrowserRouter as Router,Routes,Route} from 'react-router-dom'
 const HomePage = () => {
   return (
     <div>
-      <WrittenWorks/>
-        <ViewAuthors/>
+      {/* <WrittenWorks/>
+        <ViewAuthors/> */}
     </div>
   )
 }

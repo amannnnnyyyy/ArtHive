@@ -6,13 +6,20 @@ const WrittenWorks = require("../models/writtenWork")
 //All authors route
 
 router.get("/",async(req,res)=>{
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query._limit) || 10;
+  const skip = (page - 1) * limit;
   let searchOptions = {}
   if(req.query.name!= null && req.query.name!= ''){
     searchOptions.name = new RegExp(req.query.name,'i')
   }
 try {
-  const authors = await Author.find(searchOptions)
-  res.json(authors)
+  const authors = await Author.find(searchOptions).skip(skip).limit(limit)
+  const totalAuthors = await Author.countDocuments();
+  const totalPages = Math.ceil(totalAuthors / limit);
+  console.log("total authors : ",totalAuthors , "totalPages : ", totalPages)
+  res.json({authors:authors,totalAuthors})
+  //res.json(authors)
   //res.render('authors/index',{authors:authors,searchOptions:req.query})
   //res.json(authors)
   }catch{
@@ -39,11 +46,13 @@ router.post("/", async(req, res)=>{
     try {
       const newAuthor = await author.save();
       
-      res.redirect(`authors/${newAuthor.id}`); 
+      // res.redirect(`authors/${newAuthor.id}`); 
+      res.json(newAuthor)
     } catch (error) {
       console.error(error);
       if (error) {
-        res.render('authors/new', { author, errorMessage: "Error creating author" }); // Pass the error message
+        console.log("error creating author: ",error)
+        //res.render('authors/new', { author, errorMessage: "Error creating author" }); // Pass the error message
       } else {
         res.render('authors/new', {
           author: author
@@ -58,10 +67,13 @@ router.get("/:id",async(req,res)=>{
     const author = await Author.findById(req.params.id)
     const writtenWorks = await WrittenWorks.find({author:author.id}).limit(6).exec()
   
-    res.render('authors/show',{
-      author:author,
-      writtenWorksByAuthor:writtenWorks
-    })
+    // res.render('authors/show',{
+    //   author:author,
+    //   writtenWorksByAuthor:writtenWorks
+    // })
+    res.json({writtenWorks:writtenWorks,
+        author
+    });
   }catch(err){
     console.log("|||--------"+err.message+"--------|||")
     res.redirect('/authors')

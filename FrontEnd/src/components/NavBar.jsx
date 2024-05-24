@@ -1,5 +1,6 @@
 import React from 'react'
 import { DropDown } from './DropDown'
+import { Link } from 'react-router-dom'
 const NavBar = () => {
   return (
     <>
@@ -19,19 +20,19 @@ const NavBar = () => {
     <div className="lg:flex flex-grow items-center" id="example-navbar-warning">
       <ul className="flex flex-col lg:flex-row list-none mr-auto">
         <li className="nav-item">
-          <a className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75" href="#pablo">
+          <Link className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75" to="/">
             <i className="fab fa-facebook-square text-lg leading-lg text-white opacity-75" /> 
-          </a>
+          </Link>
         </li>
         <li className="nav-item">
-          <a className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75" href="/">
+          <Link className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75" to="/">
             <i className="fab fa-twitter text-lg leading-lg text-white opacity-75" /> <span className="ml-2">Written Works</span>
-          </a>
+          </Link>
         </li>
         <li className="nav-item">
-          <a className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75" href="/authors">
+          <Link className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75" to="/authors">
             <span className="ml-2">Authors</span>
-          </a>
+          </Link>
         </li>
       </ul>
       <div className="relative flex w-full sm:w-7/12 md:w-5/12 px-4 flex-wrap items-stretch lg:ml-auto">

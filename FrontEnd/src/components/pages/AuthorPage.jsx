@@ -1,19 +1,37 @@
-import React, { useEffect, useState } from "react";
-import { TERipple } from 'tw-elements-react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react'
+import { IoPersonCircleOutline } from "react-icons/io5";
 
-export function WrittenWorksPage({written,image}) {
-  const navigate = useNavigate();
-  
-  const gotoAuthor = (authorId) =>{
-    console.log(authorId);
-    navigate(`/author/${authorId}`)
-  }
+const AuthorPage = (props) => {
+    const [author,setAuthor] = useState("Unknown")
+    console.log("author",props.name.author.name)
+    useEffect(() => {
+      
+        if (props.name.author?.name) {
+          
+          setAuthor(props.name.author.name); // Extract names using map
+        }
+      }, [props.name.author.name]);
+    
   return (
     <>
-      {written ? (
+    <div>
+    {author.length > 0 ? ( // Only render authors if there are any
+        <ul className='text-surface dark:text-white'>
+            <li>Name</li>
+         
+            <li className='w-full cursor-default border-b-2 border-neutral-100 py-4 text-surface/50 dark:border-white/10 dark:text-white/50 dark:md:hover:bg-sky-900'><a className='bg-sky-1000' href=""><IoPersonCircleOutline />
+            {author}</a></li>
+          
+          
+          {console.log(author)}
+        </ul>
+      ) : (
+        <p>No authors found.</p> // Display message if no authors
+      )}
+    </div>
+    {props.name.writtenWorks ? (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {Object.values(written).map((written, index) => (
+          {Object.values(props.name.writtenWorks).map((written, index) => (
             <div
               key={index}
               className="flex flex-col rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700 md:max-w-xl md:flex-row"
@@ -54,5 +72,7 @@ export function WrittenWorksPage({written,image}) {
         <p>No written work found.</p>
       )}
     </>
-  );
+  )
 }
+
+export default AuthorPage

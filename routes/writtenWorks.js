@@ -58,10 +58,12 @@ router.get("/:id",async (req,res)=>{
       }else{
         authorName = 'Unknown'
       }
-      res.render('writtenWorks/show',{
-        written:written,
-        authorName:authorName
-      })
+      console.log("Im in the perfect route")
+      // res.render('writtenWorks/show',{
+      //   written:written,
+      //   authorName:authorName
+      // })
+      res.json(written)
   }catch{
     res.redirect('/')
   }

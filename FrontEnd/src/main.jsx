@@ -1,28 +1,35 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
 import './index.css'
 import { createBrowserRouter,RouterProvider } from 'react-router-dom'
-import HomePage from './components/pages/HomePage.jsx'
 import NavBar from './components/NavBar.jsx'
 import Footer from './components/Footer.jsx'
 import ViewAuthors from './components/ViewAuthors.jsx'
 import WrittenWorks from './components/WrittenWorks.jsx'
 import NotFoundPage from './components/pages/NotFoundPage.jsx'
+import ViewAuthor from './components/ViewAuthor.jsx'
+import CreateAuthorPage from './components/pages/CreateAuthorPage.jsx'
+import Pages from './components/Pages.jsx'
 
 const router = createBrowserRouter([{
   path:'/authors',
-  element:<ViewAuthors/>,
-},
-{
+  element:<><NavBar/><ViewAuthors/></>,
+},{
   path:'/',
-  element:<WrittenWorks/>,
+  element:<><NavBar/><WrittenWorks/></>,
   errorElement: <NotFoundPage/>
+},{
+  path:'/author/:authorId', 
+  element:<><NavBar/><ViewAuthor/></>
+},{
+  path:'/author/new', 
+  element:<><NavBar/><CreateAuthorPage/></>
 }])
+
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <NavBar/>
+   
     <RouterProvider router={router} />
     <Footer/>
     {/* <App /> */}
